@@ -9,15 +9,14 @@ $calcs = ($ha_z<$ur_z)?"<p>Karena Melu Aaah anunya jadi kepotong <strong>$z_per<
 
 ?><!DOCTYPE html>
 <html lang="id">
-  <head>
-  <title>Melu.Ga &rsaquo; URL Shortener</title>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="author" content="goez.my.id">
-	<link rel="stylesheet" type="text/css" href="<?=S_MURL?>bs.css" media="screen" />
-	<meta name="keywords" content="shorten,URL,melu, ga" />
-	<meta name="description" content="Melu.Ga Simple URL Shortener" />
+<head>
+<title>Ayyo Masukin Link</title>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="author" content="goez.my.id">
+<link rel="stylesheet" type="text/css" href="<?=S_MURL?>bs.css" media="screen" />
+<meta name="keywords" content="shorten,URL,ayyo.ml" />
+<meta name="description" content="Ayyo.ml Simple URL Shortener" />
 </head>
 <body>
      <div class="container col-lg-6 col-lg-offset-3">
