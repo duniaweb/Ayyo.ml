@@ -1,2 +1,2 @@
 # Ayyo.ml
-Ayyo Masukin Link
+Proyek Ayyo Masukin Link (Penyingkat Link/Url)
