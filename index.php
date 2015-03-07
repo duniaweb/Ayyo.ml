@@ -81,7 +81,7 @@ if(empty($tid)){
 					$prev_vis = $row['vi'];
 					$prev_pre = $row['pr'];
 					// include the preview page
-					include('preview.php');
+					include('liat.php');
 					// kill php script
 					die();
 				}
