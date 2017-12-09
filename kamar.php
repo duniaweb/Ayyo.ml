@@ -7,6 +7,7 @@ defined( 'ML_BARENG' ) or die( 'Kamarnya jelek!' );
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="author" content="goez.my.id">
+	<meta property="og:image" content="https://camo.githubusercontent.com/f07d4877acbc8c7dc4f201d504f12346fe390139/68747470733a2f2f6179796f2e6d6c2f696d616765732f70656e79696e676b61742d6c696e6b2e706e67" />
 	<link rel="stylesheet" type="text/css" href="<?=ML_URL?>bs.css" media="screen" />
 	<meta name="generator" content="Ayyo.ml" /> <!-- perlu izin ke author untuk hapus ini -->
 	<meta name="description" content="<?=ML_TITLE?> Simple URL Shortener" />
