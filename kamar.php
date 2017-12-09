@@ -1,15 +1,15 @@
 <?
-defined( 'S_REWRITEBASE' ) or die( 'Kamarnya jelek!' );
+defined( 'ML_BARENG' ) or die( 'Kamarnya jelek!' );
 ?><!DOCTYPE html>
 <html lang="id">
   <head>
-  <title>Ayyo Masukin Link</title>
+  <title><?=ML_TITLE?></title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="author" content="goez.my.id">
-	<link rel="stylesheet" type="text/css" href="<?=S_MURL?>bs.css" media="screen" />
-	<meta name="keywords" content="shorten,URL,ayyo.ml" />
-	<meta name="description" content="Ayyo.ml Simple URL Shortener" />
+	<link rel="stylesheet" type="text/css" href="<?=ML_URL?>bs.css" media="screen" />
+	<meta name="generator" content="Ayyo.ml" /> <!-- perlu izin ke author untuk hapus ini -->
+	<meta name="description" content="<?=ML_TITLE?> Simple URL Shortener" />
 </head>
 <body>
      <div class="container col-lg-6 col-lg-offset-3">
@@ -17,12 +17,12 @@ defined( 'S_REWRITEBASE' ) or die( 'Kamarnya jelek!' );
  
 <?
 if(!empty($error)){
-	echo '<div id="error">'.$error.'</div>';
+	echo '<div class="alert alert-dismissable alert-danger">'.$error.'</div>';
 }
 ?>
  <div class="row">
     <div class="col-md-12">
-  <form action="<?=S_MURL?>" method="post" onsubmit="return chkfrm(this);">
+  <form action="<?=ML_URL?>" method="post" onsubmit="return chkfrm(this);">
     <div class="col-md-12">
       <div class="input-group" id="shortener">
         <input type="text" class="textbox form-control input-lg" id="url" name="url" value="" placeholder="Masukkin yang Panjang Di sini"/>

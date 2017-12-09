@@ -4,7 +4,7 @@ if(!@include('ranjang.php')){
 	header('Location: buka.php');
 }
 db_connect();
-$wb = explode(S_REWRITEBASE,get_uri());
+$wb = explode(ML_BARENG,get_uri());
 $tid = $wb[1];
 
 if(empty($tid)){
@@ -14,7 +14,7 @@ if(empty($tid)){
 	if(!empty($url2s) && isset($_POST['Submit'])){
 		
 		if($hash = add_url($url2s)){
-			$new_hash = S_SELFHOST.S_REWRITEBASE.$hash;
+			$new_hash = ML_KONDOM.ML_BARENG.$hash;
 			include('lemes.php');
 
 		}else{
@@ -34,9 +34,9 @@ if(empty($tid)){
 			if($hash = add_url($url)){
 				if($aob=='longurl'){
 					header('Content-Type: text/plain');
-					echo S_SELFHOST.S_REWRITEBASE.$hash;
+					echo ML_KONDOM.ML_BARENG.$hash;
 				}else{				
-					$new_hash = S_SELFHOST.S_REWRITEBASE.$hash;
+					$new_hash = ML_KONDOM.ML_BARENG.$hash;
 					$url2s = $url;
 					include('lemes.php');
 				}
@@ -65,14 +65,14 @@ if(empty($tid)){
 			$tid = substr($tid, 0, -1);
 			
 
-			if(S_OPT_STATS){
+			if(ML_KAMERA){
 
-				$sql = 'UPDATE '.S_TB_URLS.' SET pr=pr+1 WHERE id = '.mysql_real_escape_string($id).' LIMIT 1';
+				$sql = 'UPDATE '.ML_CO.' SET pr=pr+1 WHERE id = '.mysql_real_escape_string($id).' LIMIT 1';
 				mysql_query($sql);
 				
 			}
 
-			$sql = 'SELECT * FROM '.S_TB_URLS.' WHERE id = '.mysql_real_escape_string($id);
+			$sql = 'SELECT * FROM '.ML_CO.' WHERE id = '.mysql_real_escape_string($id);
 			if($row = db_squery($sql)){
 				if($row['bl'] || check_banned_domain(check_domain($row['url']))){
 					error_404("Masih ada CD nya, ga bisa lah!");
@@ -91,20 +91,20 @@ if(empty($tid)){
 		}
 		if(preg_match("/^[0-9]+$/", $id) !== 0){
 			
-			$sql = 'SELECT * FROM '.S_TB_URLS.' WHERE id = '.mysql_real_escape_string($id);
+			$sql = 'SELECT * FROM '.ML_CO.' WHERE id = '.mysql_real_escape_string($id);
 			if($row = db_squery($sql)){
 				
 				if($row['bl'] || check_banned_domain(check_domain($row['url']))){
 					error_404("Aduh, Lagi Dapet sayank!");
 				}
 
-				if(S_OPT_STATS){
+				if(ML_KAMERA){
 					$ref = $_SERVER['HTTP_REFERER'];
 					if(!empty($ref)){
-						$sql = 'INSERT INTO '.S_TB_REFERERS.' (urlid, ref) VALUES ('.mysql_real_escape_string($id).', "'.mysql_real_escape_string($ref).'")';
+						$sql = 'INSERT INTO '.ML_CE.' (urlid, ref) VALUES ('.mysql_real_escape_string($id).', "'.mysql_real_escape_string($ref).'")';
 						mysql_query($sql);
 					}
-					$sql = 'UPDATE '.S_TB_URLS.' SET vi=vi+1 WHERE id = '.mysql_real_escape_string($id).' LIMIT 1';
+					$sql = 'UPDATE '.ML_CO.' SET vi=vi+1 WHERE id = '.mysql_real_escape_string($id).' LIMIT 1';
 					mysql_query($sql);
 					
 				}
@@ -122,6 +122,7 @@ if(empty($tid)){
  <meta charset=\"utf-8\">
     <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">
     <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">
+	<meta name=\"generator\" content=\"Ayyo.ml\" /> <!-- perlu izin ke author untuk hapus ini -->
     <link rel=\"shortcut icon\" href=\"/favicon.ico\">
     <!-- Bootstrap core CSS -->
     <link rel=\"stylesheet\" href=\"/bs.css\">
@@ -135,7 +136,8 @@ if(empty($tid)){
   <p>Aduh salah masukin.. Sakit tauk.. :( Sini lewat <a href=\"/\" class=\"alert-link\">Depan</a>.</p>
 </div>
 <hr />
-Melu.Ga</div>
+".ML_TITLE."</div>
+</div>
 <script type=\"text/javascript\"></script> 
 </body>
 </html>");

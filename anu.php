@@ -32,9 +32,6 @@ function get_uri(){
 
 /**
  * Translates a number to a short alhanumeric version
- * 
- * SOURCE:
- * http://kevin.vanzonneveld.net/techblog/article/create_short_ids_with_php_like_youtube_or_tinyurl/
  *
  * Translated any number up to 9007199254740992
  * to a shorter version in letters e.g.:
@@ -74,58 +71,117 @@ function get_uri(){
  * or: http://theserverpages.com/php/manual/en/ref.gmp.php
  * but I haven't really dugg into this. If you have more info on those
  * matters feel free to leave a comment.
- * 
- * @author    Kevin van Zonneveld <kevin@vanzonneveld.net>
+ *
+ * The following code block can be utilized by PEAR's Testing_DocTest
+ * <code>
+ * // Input //
+ * $number_in = 2188847690240;
+ * $alpha_in  = "SpQXn7Cb";
+ *
+ * // Execute //
+ * $alpha_out  = alphaID($number_in, false, 8);
+ * $number_out = alphaID($alpha_in, true, 8);
+ *
+ * if ($number_in != $number_out) {
+ *	 echo "Conversion failure, ".$alpha_in." returns ".$number_out." instead of the ";
+ *	 echo "desired: ".$number_in."\n";
+ * }
+ * if ($alpha_in != $alpha_out) {
+ *	 echo "Conversion failure, ".$number_in." returns ".$alpha_out." instead of the ";
+ *	 echo "desired: ".$alpha_in."\n";
+ * }
+ *
+ * // Show //
+ * echo $number_out." => ".$alpha_out."\n";
+ * echo $alpha_in." => ".$number_out."\n";
+ * echo alphaID(238328, false)." => ".alphaID(alphaID(238328, false), true)."\n";
+ *
+ * // expects:
+ * // 2188847690240 => SpQXn7Cb
+ * // SpQXn7Cb => 2188847690240
+ * // aaab => 238328
+ *
+ * </code>
+ *
+ * @author	Kevin van Zonneveld <kevin@vanzonneveld.net>
+ * @author	Simon Franz
+ * @author	Deadfish
+ * @author  SK83RJOSH
  * @copyright 2008 Kevin van Zonneveld (http://kevin.vanzonneveld.net)
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD Licence
  * @version   SVN: Release: $Id: alphaID.inc.php 344 2009-06-10 17:43:59Z kevin $
- * @link      http://kevin.vanzonneveld.net/
- * 
- * @param mixed   $in     String or long input to translate     
- * @param boolean $to_num Reverses translation when true
- * @param mixed   $pad_up Number or boolean padds the result up to a specified length
- * 
+ * @link	  http://kevin.vanzonneveld.net/
+ *
+ * @param mixed   $in	  String or long input to translate
+ * @param boolean $to_num  Reverses translation when true
+ * @param mixed   $pad_up  Number or boolean padds the result up to a specified length
+ * @param string  $pass_key Supplying a password makes it harder to calculate the original ID
+ *
  * @return mixed string or long
  */
-function alphaID($in, $to_num = false, $pad_up = false){
-    $index = "abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-    $base  = strlen($index);
+function alphaID($in, $to_num = false, $pad_up = false, $pass_key = null)
+{
+	$out   =   '';
+	$index = 'abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+	$base  = strlen($index);
 
- 
-    if ($to_num){
-        // Digital number  <<--  alphabet letter code
-        $in  = strrev($in);
-        $out = 0;
-        $len = strlen($in) - 1;
-        for ($t = 0; $t <= $len; $t++) {
-            $bcpow = pow($base, $len - $t);
-            $out   = $out + strpos($index, substr($in, $t, 1)) * $bcpow;
-        }
- 
-        if (is_numeric($pad_up)) {
-            $pad_up--;
-            if ($pad_up > 0) {
-                $out -= pow($base, $pad_up);
-            }
-        }
-    }else{ 
-        // Digital number  -->>  alphabet letter code
-        if (is_numeric($pad_up)) {
-            $pad_up--;
-            if ($pad_up > 0) {
-                $in += pow($base, $pad_up);
-            }
-        }
- 
-        $out = "";
-        for ($t = floor(log10($in) / log10($base)); $t >= 0; $t--) {
-            $a   = floor($in / pow($base, $t));
-            $out = $out . substr($index, $a, 1);
-            $in  = $in - ($a * pow($base, $t));
-        }
-        $out = strrev($out); // reverse
-    }
-    return $out;
+	if ($pass_key !== null) {
+		// Although this function's purpose is to just make the
+		// ID short - and not so much secure,
+		// with this patch by Simon Franz (http://blog.snaky.org/)
+		// you can optionally supply a password to make it harder
+		// to calculate the corresponding numeric ID
+
+		for ($n = 0; $n < strlen($index); $n++) {
+			$i[] = substr($index, $n, 1);
+		}
+
+		$pass_hash = hash('sha256',$pass_key);
+		$pass_hash = (strlen($pass_hash) < strlen($index) ? hash('sha512', $pass_key) : $pass_hash);
+
+		for ($n = 0; $n < strlen($index); $n++) {
+			$p[] =  substr($pass_hash, $n, 1);
+		}
+
+		array_multisort($p, SORT_DESC, $i);
+		$index = implode($i);
+	}
+
+	if ($to_num) {
+		// Digital number  <<--  alphabet letter code
+		$len = strlen($in) - 1;
+
+		for ($t = $len; $t >= 0; $t--) {
+			$bcp = bcpow($base, $len - $t);
+			$out = $out + strpos($index, substr($in, $t, 1)) * $bcp;
+		}
+
+		if (is_numeric($pad_up)) {
+			$pad_up--;
+
+			if ($pad_up > 0) {
+				$out -= pow($base, $pad_up);
+			}
+		}
+	} else {
+		// Digital number  -->>  alphabet letter code
+		if (is_numeric($pad_up)) {
+			$pad_up--;
+
+			if ($pad_up > 0) {
+				$in += pow($base, $pad_up);
+			}
+		}
+
+		for ($t = ($in != 0 ? floor(log($in, $base)) : 0); $t >= 0; $t--) {
+			$bcp = bcpow($base, $t);
+			$a   = floor($in / $bcp) % $base;
+			$out = $out . substr($index, $a, 1);
+			$in  = $in - ($a * $bcp);
+		}
+	}
+
+	return $out;
 }
 
 // Get self host name
@@ -138,8 +194,8 @@ function selfHost() {
 
 // DB connection
 function db_connect(){
-	mysql_connect(S_DB_HOST, S_DB_USER, S_DB_PASS) or die();
-	mysql_select_db(S_DB_SLDB) or die();
+	mysql_connect(ML_DB_HOST, ML_DB_USER, ML_DB_PASS) or die();
+	mysql_select_db(ML_DB_NAME) or die();
 }
 
 // single row query
@@ -169,7 +225,7 @@ function check_domain($url){
 
 // Check for banned domains
 function check_banned_domain($host){
-	$sql = 'SELECT * FROM '.S_TB_BLACKLIST.' WHERE dom = "'.mysql_real_escape_string($host).'"';
+	$sql = 'SELECT * FROM '.ML_OT.' WHERE dom = "'.mysql_real_escape_string($host).'"';
 	return db_squery($sql);
 }
 
@@ -177,12 +233,12 @@ function check_banned_domain($host){
 function add_url_to_db($url){
 	// Check if the address it's alredy compressed and return it if it is
 	$url = trim($url);
-	$sql = 'SELECT * FROM '.S_TB_URLS.' WHERE url = "'.mysql_real_escape_string($url).'"';
+	$sql = 'SELECT * FROM '.ML_CO.' WHERE url = "'.mysql_real_escape_string($url).'"';
 	if($row = db_squery($sql)){
 		return alphaID($row['id']);
 	}else{
 		// let's add that address
-		$sql = 'INSERT INTO '.S_TB_URLS.' (url) VALUES("'.mysql_real_escape_string($url).'")';
+		$sql = 'INSERT INTO '.ML_CO.' (url) VALUES("'.mysql_real_escape_string($url).'")';
 		mysql_query($sql);
 		$url_nid = mysql_insert_id();
 		return alphaID($url_nid);

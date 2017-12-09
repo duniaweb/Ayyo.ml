@@ -1,17 +1,17 @@
 <?php
-define('S_REWRITEBASE','/');
-
 // Persiapan mau ML nya
-define('S_DB_HOST','localhost');
-define('S_DB_USER','my.user.db');
-define('S_DB_PASS','my.pass.db');
-define('S_DB_SLDB','my.name.db');
+define('ML_BARENG','/'); // baseurl
+define('ML_DB_HOST','localhost'); // server mysql
+define('ML_DB_USER','my.user.db'); // user mysql
+define('ML_DB_PASS','my.pass.db'); // password sql
+define('ML_DB_NAME','my.name.db'); // nama sql nya
+// pastikan kamu sudah restore file database.sql di database kamu
+define('ML_KONDOM',selfHost()); // abaikan
+define('ML_URL', ML_KONDOM.ML_BARENG); // biarkan
+define('ML_CO','co_wo'); // table untuk url
+define('ML_CE','ce_we'); // tabel untuk referal
+define('ML_OT','ow_rang'); // tabel untuk dom yg di blokir
+define('ML_TITLE','Ayyo.ML'); // judul url
 
-define('S_SELFHOST',selfHost());
-define('S_MURL', S_SELFHOST.S_REWRITEBASE);
-define('S_TB_URLS','co_wo');
-define('S_TB_REFERERS','ce_we');
-define('S_TB_BLACKLIST','ow_rang');
-
-define('S_OPT_STATS',true);
+define('ML_KAMERA',true); // statistik true=ya false=tidak
 ?>
