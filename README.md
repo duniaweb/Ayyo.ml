@@ -3,9 +3,9 @@
 Proyek Ayyo Masukin Link (Penyingkat Link/Url)<br />
 Script Ide dari <a href="http://ayyo.ml/pdmsm">Kevin</a>
 <br />
-<code>Berjalan pada PHP 5.3 Kebawah..<code><br />
-<pre>Awas kontent dilindungi oleh pihak Hotel, karena ini akan mesum :D<br />
-Rekomendasi test pada Free Hosting <a href="http://freehostia.com">FreeHostia.com</a></pre>
+Berjalan pada PHP 5.3 Kebawah..<br />
+Awas kontent dilindungi oleh pihak Hotel, karena ini akan mesum :D<br />
+Rekomendasi test pada Free Hosting <a href="http://freehostia.com">FreeHostia.com</a>
 
 # Instruksi
 1. Upload semua file ke root dir (htdocs/public_html dll)<br />
