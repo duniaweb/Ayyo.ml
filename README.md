@@ -1,9 +1,8 @@
 # Ayyo.ml
-<img src="https://ayyo.ml/images/penyingkat-link.png"/>
 Proyek Ayyo Masukin Link (Penyingkat Link/Url)<br />
 Script Ide dari <a href="http://ayyo.ml/pdmsm">Kevin</a>
 <br />
-Berjalan pada PHP 5.3 Kebawah..<br />
+Berjalan pada PHP 7 Kebawah, atau ganti mysqlconnect agar bisa di php7+<br />
 Awas kontent dilindungi oleh pihak Hotel, karena ini akan mesum :D<br />
 Rekomendasi test pada Free Hosting <a href="http://freehostia.com">FreeHostia.com</a>
 
